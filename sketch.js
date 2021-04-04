@@ -3,6 +3,7 @@ let isFirstPlayersTurn;
 let isSecondPlayersTurn;
 let assignLetter;
 let winner;
+let gameFinished;
 
 //Setup function
 function setup() {
@@ -14,6 +15,7 @@ function setup() {
   isFirstPlayersTurn = true;
   isSecondPlayersTurn = false;
   assignLetter = "f";
+  gameFinished = false;
   //Initialise piece array
   pieces = [[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null]];
 }
@@ -49,8 +51,10 @@ function draw() {
   textSize(20);
   text("Red = Player 2", 500, 60);
   //Draw pieces
-  drawPieces();
-  checkWinner();
+  while (!gameFinished){
+    drawPieces();
+    checkWinner();
+  }
 }
 
 //Function to draw pieces on grid
@@ -207,6 +211,7 @@ function checkWinner(){
     stroke(0);
     fill(0);
     text("Winner: " + winner + "!", 10, 50);
+    gameFinished = true;
   }
 }
 
