@@ -1,18 +1,25 @@
 let pieces;
-let isPlayersTurn;
+let isFirstPlayersTurn;
+let isSecondPlayersTurn;
+let assignLetter;
+let winner;
 
+//Setup function
 function setup() {
-  //print("yeet");
+  //Creates canvas
   createCanvas(702, 701);
-  //background(255);
+  //Set framerate
   frameRate(10);
-  isPlayersTurn = true;
-  //pieces[x][y]
+  //Initialises variables
+  isFirstPlayersTurn = true;
+  isSecondPlayersTurn = false;
+  assignLetter = "f";
+  //Initialise piece array
   pieces = [[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null],[null, null, null, null, null, null]];
 }
 
+//Draw function
 function draw() {
-  //background();
   //Create grid
   stroke(0);
   //Vertical lines
@@ -32,6 +39,15 @@ function draw() {
   line(0, 500, 702, 500);
   line(0, 600, 702, 600);
   line(0, 700, 702, 700);
+  //Draw info
+  stroke(31, 46, 255);
+  fill(31, 46, 255);
+  textSize(20);
+  text("Blue = Player 1", 500, 25);
+  stroke(255, 54, 54);
+  fill(255, 54, 54);
+  textSize(20);
+  text("Red = Player 2", 500, 60);
   //Draw pieces
   drawPieces();
   checkWinner();
@@ -39,225 +55,232 @@ function draw() {
 
 //Function to draw pieces on grid
 function drawPieces(){
-  print(pieces);
-  //print("Draw");
+  //Loop through x values
   for (i = 0; i < pieces.length; i++){
     let YMult;
+    //Loop through y values
     for (j = 0; j < pieces[i].length; j++){
       YMult = 6 - j;
-      if (pieces[i][j] === "p"){
-        //background(0);
-        fill(100);
+      //Draw piece in relevant colour
+      if (pieces[i][j] === "f"){
+        stroke(31, 46, 255);
+        fill(31, 46, 255);
+        square((i*100)+1, (YMult*100), 99);
+      }
+      else if (pieces[i][j] === "s"){
+        stroke(255, 54, 54);
+        fill(255, 54, 54);
         square((i*100)+1, (YMult*100), 99);
       }
     }
   }
- //background(0);
 }
 
+//Function to run when the mouse is clicked
 function mouseClicked(){
-  //background(0);
   //Let player place token
-  //Check if its player's turn
-  if (isPlayersTurn){
-    //background(0);
+  //Check if its either player's turn
+  if (isFirstPlayersTurn || isSecondPlayersTurn){
     let isPlaced = false;
-    //Check if mouse is pressed
-    //if (mouseIsPressed){
-      //Check if in boundaries of top selection section
+    //Check if in boundaries of top selection section
     if (mouseY > 0 && mouseY < 100 && mouseX > 0 && mouseX < 702){
-        //background(0);
-        //Check if in first selection section
+      //Check if in first selection section
       if (mouseX < 101){
-          //background(0);
-          //Loop through list, see if any free spaces
+        //Loop through list, see if any free spaces
         for (i = 0; i < 6; i++){
-            //If piece not placed and place empty, place piece
+          //If piece not placed and place empty, place piece
           if (!isPlaced && pieces[0][i] === null){
-              //background(0);
-              pieces[0][i] = "p";
+              pieces[0][i] = assignLetter;
               isPlaced = true;
-              //textSize(32);
-              //text("0", 600, 50);
           }
         }
       }
-        //Check if in second selection section
+      //Check if in second selection section
       else if (mouseX < 201){
-          //Loop through list, see if any free spaces
+        //Loop through list, see if any free spaces
         for (i = 0; i < 6; i++){
-            //If piece not placed and place empty, place piece
+          //If piece not placed and place empty, place piece
           if (!isPlaced && pieces[1][i] === null){
-              pieces[1][i] = "p";
+              pieces[1][i] = assignLetter;
               isPlaced = true;
-              //textSize(32);
-              //text("1", 630, 50);
           }
         }
       }
-        //Check if in third selection section
+      //Check if in third selection section
       else if (mouseX < 301){
-          //Loop through list, see if any free spaces
+        //Loop through list, see if any free spaces
         for (i = 0; i < 6; i++){
-            //If piece not placed and place empty, place piece
+          //If piece not placed and place empty, place piece
           if (!isPlaced && pieces[2][i] === null){
-              pieces[2][i] = "p";
+              pieces[2][i] = assignLetter;
               isPlaced = true;
-              //textSize(32);
-              //text("2", 660, 50);
           }
         }
       }
-        //Check if in fourth selection section
+      //Check if in fourth selection section
       else if (mouseX < 401){
-          //Loop through list, see if any free spaces
+        //Loop through list, see if any free spaces
         for (i = 0; i < 6; i++){
-            //If piece not placed and place empty, place piece
+          //If piece not placed and place empty, place piece
           if (!isPlaced && pieces[3][i] === null){
-              pieces[3][i] = "p";
+              pieces[3][i] = assignLetter;
               isPlaced = true;
-              //textSize(32);
-              //text("3", 690, 50);
           }
         }
       }
-        //Check if in fifth selection section
+      //Check if in fifth selection section
       else if (mouseX < 501){
-          //Loop through list, see if any free spaces
+        //Loop through list, see if any free spaces
         for (i = 0; i < 6; i++){
-            //If piece not placed and place empty, place piece
+          //If piece not placed and place empty, place piece
           if (!isPlaced && pieces[4][i] === null){
-              pieces[4][i] = "p";
+              pieces[4][i] = assignLetter;
               isPlaced = true;
           }
         }
       }
-        //Check if in sixth selection section
+      //Check if in sixth selection section
       else if (mouseX < 601){
-          //Loop through list, see if any free spaces
+        //Loop through list, see if any free spaces
         for (i = 0; i < 6; i++){
-            //If piece not placed and place empty, place piece
+          //If piece not placed and place empty, place piece
           if (!isPlaced && pieces[5][i] === null){
-              pieces[5][i] = "p";
+              pieces[5][i] = assignLetter;
               isPlaced = true;
           }
         }
       }
-        //Check if in third selection section
+      //Check if in third selection section
       else if (mouseX < 702){
-          //Loop through list, see if any free spaces
+        //Loop through list, see if any free spaces
         for (i = 0; i < 6; i++){
-            //If piece not placed and place empty, place piece
+          //If piece not placed and place empty, place piece
           if (!isPlaced && pieces[6][i] === null){
-              pieces[6][i] = "p";
+              pieces[6][i] = assignLetter;
               isPlaced = true;
           }
         }
       }
     }
-    //}
-    //If player has placed piece, make it so it isnt player's turn
+    //If player has placed piece, make it so it switches which player's turn it is
     if (isPlaced){
-      //isPlayersTurn = false;
+      //Draw updated board
       drawPieces();
-      //background(0);
-    }
-  }
-  //checkWinner();
-}
-
-function checkWinner(){
-  //background(0);
-  //print("Hello");
-  let four = false;
-  //textSize(16);
-  //text(pieces, 20, 50);
-  for (i = 0; i < pieces.length; i++){
-    //background();
-    //fill(0);
-    //text("y", i*20, 40);
-    for (j = 0; j < pieces[i].length; j++){
-      if (pieces[i][j] === "p" && checkAllDirections(i, j)){
-        //background(0);
-        four = true;
+      //Switch players turn
+      if (isFirstPlayersTurn){
+        isFirstPlayersTurn = false;
+        isSecondPlayersTurn = true;
+        assignLetter = "s";
+      }
+      else if (isSecondPlayersTurn){
+        isFirstPlayersTurn = true;
+        isSecondPlayersTurn = false;
+        assignLetter = "f";
       }
     }
   }
+}
+
+//Function to check for a winner
+function checkWinner(){
+  //Four is the boolean as to whether a four-in-a-row is found
+  let four = false;
+  //Loop through x positions
+  for (i = 0; i < pieces.length; i++){
+    //Loop through y positions
+    for (j = 0; j < pieces[i].length; j++){
+      //Check if 1st player has a four
+      if (pieces[i][j] === "f" && checkAllDirections(i, j, "f")){
+        four = true;
+        winner = "P1";
+      }
+      //Check if 2nd player has a four
+      else if (pieces[i][j] === "s" && checkAllDirections(i, j, "s")){
+        four = true;
+        winner = "P2";
+      }
+    }
+  }
+  //If someone has won
   if (four){
-    //background(0);
     textSize(32);
-    text("Winner!", 10, 50);
+    stroke(0);
+    fill(0);
+    text("Winner: " + winner + "!", 10, 50);
   }
 }
 
-function checkAllDirections(x, y){
-  //background(0);
+//Function to check if a four-in-a-row has occurred in any direction from the current piece
+//Since I scan top-left to bottom-right, vertically, only four directions need to be checked
+function checkAllDirections(x, y, checkChar){
   let four = false;
-  if (checkDirection("r", x, y) || checkDirection("br", x, y) || checkDirection("d", x, y) || checkDirection("bl", x, y)){
+  //Check all directions
+  if (checkDirection("r", x, y, checkChar) || checkDirection("br", x, y, checkChar) || checkDirection("d", x, y, checkChar) || checkDirection("bl", x, y, checkChar)){
     four = true;
   }
   return four;
 }
 
-function checkDirection(direction, startX, startY){
-  //background(0);
-  //If connected == 3 then there is 4 in a row
+//Function to check if a four-in-a-row has occurred in a given direction from the current piece
+function checkDirection(direction, startX, startY, checkChar){
+  //If connected == 3 then there is a four-in-a-row
   let connected = 0;
   let tried = 0;
-  //If checking right
+  //Checking right
   if (direction === "r"){
-    //background(0);
     let x = startX;
-    //Keep trying
+    //Keep trying until 3 in line have been checked
     while (tried <= 2 && x < 6){
-      //background(0);
+      //Try next position to the right
       x++;
-      if (pieces[x][startY] === "p"){
-        //background(x*50);
-        //fill(255);
-        //square(5, 45, 25);
-        //fill(0);
-        //text(x, 10, 50);
+      //If piece is there, increment number found
+      if (pieces[x][startY] === checkChar){
         connected++;
       }
       tried++;
     }
   }
-  //If checking diag down right
+  //Checking diagonally down right
   else if (direction === "br"){
     let x = startX;
     let y = startY;
-    //Keep trying
+    //Keep trying until 3 in line have been checked
     while (tried <= 2 && x < 6 && y < 5){
+      //Try next x position & y (i.e. diagonally down right)
       x++;
       y++;
-      if (pieces[x][y] === "p"){
+      //If piece is there, increment number found
+      if (pieces[x][y] === checkChar){
         connected++;
       }
       tried++;
     }
   }
-  //If checking down
+  //Checking down
   else if (direction === "d"){
     let y = startY;
-    //Keep trying
+    //Keep trying until 3 in line have been checked
     while (tried <= 2 && y < 5){
+      //Try next position down
       y++;
-      if (pieces[startX][y] === "p"){
+      //If piece is there, increment number found
+      if (pieces[startX][y] === checkChar){
         connected++;
       }
       tried++;
     }
   }
-  //If checking diag down left
+  //Checking diagonally down left
   else if (direction === "bl"){
     let x = startX;
     let y = startY;
-    //Keep trying
+    //Keep trying until 3 in line have been checked
     while (tried <= 2 && x > 0 && y < 5){
+      //Try next x position & y (i.e. diagonally down left)
       x--;
       y++;
-      if (pieces[x][y] === "p"){
+      //If piece is there, increment number found
+      if (pieces[x][y] === checkChar){
         connected++;
       }
       tried++;
@@ -265,12 +288,9 @@ function checkDirection(direction, startX, startY){
   }
   //If four in a row, return true
   if (connected === 3){
-    //background(0);
     return true;
   }
   else{
     return false;
   }
 }
-
-//DETECTS TWO NEXT TO EACH OTHER AS WINNING STATE?
