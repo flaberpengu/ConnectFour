@@ -51,7 +51,7 @@ function draw() {
   textSize(20);
   text("Red = Player 2", 500, 60);
   //Draw pieces
-  while (!gameFinished){
+  if (!gameFinished){
     drawPieces();
     checkWinner();
   }
@@ -84,7 +84,7 @@ function drawPieces(){
 function mouseClicked(){
   //Let player place token
   //Check if its either player's turn
-  if (isFirstPlayersTurn || isSecondPlayersTurn){
+  if ((isFirstPlayersTurn || isSecondPlayersTurn) && !gameFinished){
     let isPlaced = false;
     //Check if in boundaries of top selection section
     if (mouseY > 0 && mouseY < 100 && mouseX > 0 && mouseX < 702){
